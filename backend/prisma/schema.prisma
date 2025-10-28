@@ -1,7 +1,12 @@
-// prisma/schema.prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider       = "prisma-client-js"
+  reviewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -10,66 +15,167 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  username    String       @unique
+  id          Int       @id @default(autoincrement())
+  name        String
+  username    String    @unique
   password    String
-  role        Role         @default(USER)
-  transactions Transaction[]
-  createdAt   DateTime     @default(now())
+  phoneNumber String?
+  roleId      Int
+  active      Boolean   @default(true)
+  createdBy   Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  Role           Role             @relation(fields: [roleId], references: [id])
+  Transfer       Transfer[]
+  Sale           Sale[]
+  Creator        User?            @relation(fields: [createdBy], references: [id], name: "CreatorCreated")
+  CreatedUsers   User[]           @relation(name: "CreatorCreated")
+  TransactionLog TransactionLog[]
+
+  @@map("users")
+}
+
+model Role {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  User User[]
+
+  @@map("roles")
 }
 
 model Item {
-  id              Int          @id @default(autoincrement())
-  name            String
-  partNumber      String       @unique
-  quantity        Int          @default(0)
-  priceBeforeVAT  Float
-  shelfLocation   String?
-  storeLocation   String?
-  source          String?      // Where the item was bought
-  transactions    Transaction[]
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id                   Int        @id @default(autoincrement())
+  name                 String
+  partNumber           String
+  substitutePartNumber String?   // optional substitute part number
+  description          String?
+  price                Decimal
+  source               ItemSource
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime?  @updatedAt
+
+  ShelfItem      ShelfItem[]
+  Sale           Sale[]
+  Transfer       Transfer[]
+  TransactionLog TransactionLog[]
+
+  @@map("items")
+}
+
+enum ItemSource {
+  ORIGINAL
+  LOCAL
 }
 
 model Store {
-  id         Int         @id @default(autoincrement())
-  name       String
-  location   String
-  inventories Inventory[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  Shelf             Shelf[]
+  SentTransfers     Transfer[] @relation(name: "fromTransfer")
+  ReceivedTransfers Transfer[] @relation(name: "toTransfer")
+
+  @@map("stores")
 }
 
-model Inventory {
-  id        Int      @id @default(autoincrement())
-  itemId    Int
-  storeId   Int
-  quantity  Int       @default(0)
-  item      Item      @relation(fields: [itemId], references: [id])
-  store     Store     @relation(fields: [storeId], references: [id])
+model Shelf {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  storeId     Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  Store     Store       @relation(fields: [storeId], references: [id])
+  ShelfItem ShelfItem[]
+
+  @@map("shelves")
 }
 
-model Transaction {
-  id           Int        @id @default(autoincrement())
-  type         TransactionType
-  userId       Int
-  itemId       Int
-  quantity     Int
-  source       String?
-  recipient    String?       // e.g., cashier username
-  createdAt    DateTime      @default(now())
-  user         User          @relation(fields: [userId], references: [id])
-  item         Item          @relation(fields: [itemId], references: [id])
+model Transfer {
+  id          Int            @id @default(autoincrement())
+  itemId      Int
+  fromStoreId Int
+  toStoreId   Int
+  userId      Int
+  status      TransferStatus
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime?      @updatedAt
+
+  Item        Item  @relation(fields: [itemId], references: [id])
+  FromStore   Store @relation(fields: [fromStoreId], references: [id], name: "fromTransfer")
+  ToStore     Store @relation(fields: [toStoreId], references: [id], name: "toTransfer")
+  SalesPerson User  @relation(fields: [userId], references: [id])
+
+  @@map("transfers")
 }
 
-enum Role {
-  ADMIN
-  USER
+enum TransferStatus {
+  INITIATED
+  DONE
+}
+
+model ShelfItem {
+  id              Int       @id @default(autoincrement())
+  itemId          Int
+  shelfLocationId Int
+  quantity        Int
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
+
+  Item          Item  @relation(fields: [itemId], references: [id])
+  ShelfLocation Shelf @relation(fields: [shelfLocationId], references: [id])
+
+  @@map("shelf-item")
+}
+
+model Sale {
+  id            Int        @id @default(autoincrement())
+  transactionId String
+  itemId        Int
+  clientName    String
+  userId        Int
+  quantity      Int
+  price         Decimal
+  status        SaleStatus
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?  @updatedAt
+
+  Item        Item @relation(fields: [itemId], references: [id])
+  SalesPerson User @relation(fields: [userId], references: [id])
+
+  @@map("sales")
+}
+
+model TransactionLog {
+  id                Int             @id @default(autoincrement())
+  userId            Int
+  itemId            Int
+  quantity          Int
+  type              TransactionType
+  remainingQuantity Int
+  createdAt         DateTime        @default(now())
+
+  Item            Item @relation(fields: [itemId], references: [id])
+  ResponsibleUser User @relation(fields: [userId], references: [id])
+
+  @@map("transaction-logs")
+}
+
+enum SaleStatus {
+  PENDING
+  PRINTED
 }
 
 enum TransactionType {
-  ADD
-  UPDATE
-  SELL
-  STOCK
-  MOVE
+  DEBIT
+  CREDIT
 }
