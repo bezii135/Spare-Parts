@@ -1,0 +1,51 @@
+<div class="login-wrapper">
+  <div class="login-container">
+    <h1>Login</h1>
+
+    <form (ngSubmit)="login()" autocomplete="off">
+      <!-- Role selector -->
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" [(ngModel)]="role" name="role" required>
+          <option value="" disabled selected>Select role</option>
+          <option value="admin">Admin</option>
+          <option value="sales">Sales</option>
+          <option value="cashier">Cashier</option>
+        </select>
+      </div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter your username"
+          required
+          [(ngModel)]="username"
+          name="username"
+          autocomplete="new-username"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          required
+          [(ngModel)]="password"
+          name="password"
+          autocomplete="new-password"
+        />
+      </div>
+
+      <!-- Error message -->
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>

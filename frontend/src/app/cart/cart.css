@@ -1,0 +1,90 @@
+.cart-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.main-content {
+  width: 100%;
+  max-width: 1000px;
+  background: #f5f5f5;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #004e92;
+}
+
+.customer-info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.customer-info input {
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th,
+table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  background-color: #004e92;
+  color: white;
+}
+
+table td button {
+  padding: 4px 8px;
+  margin: 0 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #004e92;
+  background-color: #fff;
+  color: #004e92;
+}
+
+table td button:hover {
+  background-color: #004e92;
+  color: white;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #004e92;
+  color: white;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #003b70;
+}

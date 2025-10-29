@@ -1,0 +1,25 @@
+<div class="dashboard-wrapper" [class.dark-mode]="darkMode">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">SpareFlow</div>
+    <nav>
+      <ul>
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+       <li><a routerLink="/item" routerLinkActive="active">Item</a></li>
+
+        <li><a>History</a></li>
+        <li><a>Attachment</a></li>
+        <li><a>User Add/Remove</a></li>
+        <li><a>Item Add</a></li>
+        <li><a (click)="goBack()" style="cursor:pointer;">Back</a></li>
+        <li><a (click)="logout()" style="cursor:pointer;">Logout</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <h1>Admin Panel</h1>
+    <p>Welcome, {{ username }}!</p>
+  </main>
+</div>
