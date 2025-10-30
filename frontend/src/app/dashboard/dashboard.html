@@ -1,0 +1,27 @@
+<div class="dashboard-wrapper" [class.dark-mode]="darkMode">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">SpareFlow</div>
+    <nav>
+      <ul>
+        <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+        <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
+
+        <li><a routerLink="/sales" routerLinkActive="active">Sales</a></li>
+        <li><a routerLink="/cashier" routerLinkActive="active">Cashier</a></li>
+        <li>
+          <button type="button" (click)="toggleDarkMode()">Darkmode</button>
+        </li>
+        <li>
+          <a (click)="logout()" style="cursor:pointer;">Logout</a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <h1>Dashboard</h1>
+    <p>Welcome, {{ username }}!</p>
+  </main>
+</div>

@@ -1,0 +1,71 @@
+<div class="item-wrapper">
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="logo">SpareFlow</div>
+    <nav>
+      <ul>
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a class="active">Item</a></li>
+        <li><a routerLink="/history">History</a></li>
+        <li><a routerLink="/attachment">Attachment</a></li>
+        <li><a routerLink="/user">User Add/Remove</a></li>
+        <li><a routerLink="/item-add">Item Add</a></li>
+        <li><a routerLink="/admin">Back</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <!-- Top bar: user left, cart right -->
+    <div class="top-bar">
+      <span class="username">Logged in as: {{ username }}</span>
+     <button class="cart-button" (click)="goToCart()">
+  🛒
+  <span *ngIf="totalSelectedItems() > 0" class="cart-count">
+    {{ totalSelectedItems() }}
+  </span>
+</button>
+
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search items..." [(ngModel)]="searchTerm" />
+    </div>
+
+    <!-- Item table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Item Name</th>
+          <th>Part Number</th>
+          <th>Quantity</th>
+          <th>Store Location</th>
+          <th>Shelf Location</th>
+          <th>Price Before VAT</th>
+          <th>Price After VAT</th>
+          <th>Substitute Part Number</th>
+          <th>Quantity Selected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredItems(); let i = index">
+          <td>{{ item.name }}</td>
+          <td>{{ item.partNumber }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.storeLocation }}</td>
+          <td>{{ item.shelfLocation }}</td>
+          <td>{{ item.priceBeforeVAT | currency }}</td>
+          <td>{{ item.priceAfterVAT | currency }}</td>
+          <td>{{ item.substitutePartNumber }}</td>
+          <td>
+            <button (click)="decrease(i)">-</button>
+            {{ item.selectedQuantity }}
+            <button (click)="increase(i)">+</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>

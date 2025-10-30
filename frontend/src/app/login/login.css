@@ -1,0 +1,155 @@
+/* Ensure html and body fill the screen */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* Full-screen wrapper with blue-black gradient */
+.login-wrapper {
+  display: flex;
+  justify-content: center;  /* horizontal center */
+  align-items: center;      /* vertical center */
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom right, #000428, #004e92); /* blue-black gradient */
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+/* Login container (center card) */
+.login-container {
+  background: rgba(255, 255, 255, 0.95); /* slightly transparent white */
+  padding: 60px 50px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;     /* limits container width */
+  box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; /* stack elements vertically */
+  align-items: center;    /* center contents horizontally */
+}
+
+/* Title */
+.login-container h1 {
+  margin-bottom: 35px;
+  color: #333;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+/* Form groups centered */
+.form-group {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;  /* label above input */
+  align-items: center;     /* center horizontally */
+  width: 100%;
+}
+
+/* Labels centered */
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+  width: 100%;
+}
+
+/* Inputs centered */
+.form-group input {
+  width: 80%;             /* shrink input for visual balance */
+  max-width: 300px;
+  padding: 14px 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+/* Input focus effect */
+.form-group input:focus {
+  border-color: #004e92;
+  box-shadow: 0 0 10px rgba(0, 78, 146, 0.5);
+  outline: none;
+}
+
+/* Login button */
+button {
+  width: 80%;            /* match input width */
+  max-width: 300px;
+  padding: 16px;
+  background-color: #004e92;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #003b70;
+  transform: translateY(-2px);
+}
+
+/* Responsive design for mobile */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 40px 25px;
+  }
+
+  .login-container h1 {
+    font-size: 28px;
+  }
+
+  .form-group input,
+  button {
+    width: 90%;
+    max-width: none;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+/* Role select field */
+.form-group select {
+  width: 80%;               /* match input width */
+  max-width: 300px;
+  padding: 14px 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: border 0.3s, box-shadow 0.3s;
+  background-color: white;
+  appearance: none;         /* remove default arrow in some browsers */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+/* Add focus effect */
+.form-group select:focus {
+  border-color: #004e92;
+  box-shadow: 0 0 10px rgba(0, 78, 146, 0.5);
+  outline: none;
+}
+
+/* Optional: small arrow icon using CSS */
+.form-group select {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 40px; /* space for arrow */
+}

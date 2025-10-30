@@ -1,0 +1,59 @@
+<div class="cart-wrapper">
+  <main class="main-content">
+    <h2>Cart</h2>
+
+    <!-- Customer info -->
+    <div class="customer-info">
+      <input type="text" placeholder="Customer Name" [(ngModel)]="customerName" required />
+      <input type="text" placeholder="TIN Number" [(ngModel)]="tinNumber" />
+    </div>
+
+    <!-- Cart table -->
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Item Name</th>
+          <th>Part Number</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items; index as i">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.partNumber }}</td>
+          <td>
+            <button (click)="decrease(item)">-</button>
+            {{ item.quantity }}
+            <button (click)="increase(item)">+</button>
+          </td>
+          <td>{{ item.unitPrice | currency }}</td>
+          <td>{{ item.totalPrice | currency }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">Total Price</td>
+          <td>{{ getTotalPrice() | currency }}</td>
+        </tr>
+        <tr>
+          <td colspan="5">VAT (15%)</td>
+          <td>{{ getVAT() | currency }}</td>
+        </tr>
+        <tr>
+          <td colspan="5"><strong>Grand Total</strong></td>
+          <td><strong>{{ getGrandTotal() | currency }}</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <button (click)="sell()">Sell</button>
+      <button (click)="goBack()">Back</button>
+    </div>
+  </main>
+</div>
