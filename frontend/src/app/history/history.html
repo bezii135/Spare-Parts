@@ -1,0 +1,90 @@
+<div class="dashboard-wrapper">
+  <!-- Topbar -->
+  <aside class="topbar">
+    <div class="left-section">
+    <div class="logo">SpareFlow</div>
+
+
+    <nav>
+      <ul [class.show]="isMenuOpen">
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a routerLink="/item">Item</a></li>
+        <li><a routerLink="/history" class="active">History</a></li>
+        <li><a routerLink="/attachment">Attachment</a></li>
+<li>
+          <a
+            routerLink="/itemadd"
+            [class.disabled-link]="isSalesUser"
+            [attr.tabindex]="isSalesUser ? -1 : null"
+            [attr.aria-disabled]="isSalesUser ? true : null"
+            [style.pointer-events]="isSalesUser ? 'none' : 'auto'"
+          >
+            Item Add
+          </a>
+        </li>
+
+        <!-- User Add/Remove -->
+        <li>
+          <a
+            routerLink="/user"
+            [class.disabled-link]="isSalesUser"
+            [attr.tabindex]="isSalesUser ? -1 : null"
+            [attr.aria-disabled]="isSalesUser ? true : null"
+            [style.pointer-events]="isSalesUser ? 'none' : 'auto'"
+          >
+            User Add/Remove
+          </a>
+        </li>
+
+        <!-- Item Add -->
+        
+        <li><a (click)="goBack()" style="cursor:pointer;">Back</a></li>
+      </ul>
+    </nav>
+    </div>
+<!-- Hamburger menu (hidden on desktop) -->
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <span class="menu-icon">☰</span>
+      <span class="menu-text">Menu</span>
+    </button>
+
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <h1>Sales History</h1>
+    <p class="username">Logged in as: {{ username }}!</p>
+    <table *ngIf="sales.length > 0; else emptyHistory">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Item Name</th>
+          <th>Sales Person</th>
+          <th>Part Number</th>
+          <th>Quantity</th>
+          <th>Customer Name</th>
+          <th>Price</th>
+          <th>Store Location</th>
+        </tr>
+      </thead>
+     <tbody>
+  <tr *ngFor="let s of sales">
+    <td data-label="Date">{{ s.date }}</td>
+    <td data-label="Time">{{ s.time }}</td>
+    <td data-label="Item Name">{{ s.itemName }}</td>
+    <td data-label="Sales Person">{{ s.username }}</td>
+    <td data-label="Part Number">{{ s.partNumber }}</td>
+    <td data-label="Quantity">{{ s.quantity }}</td>
+    <td data-label="Customer Name">{{ s.customerName }}</td>
+    <td data-label="Price">{{ getPrice(s) | currency }}</td>
+    <td data-label="Store Location">{{ s.storeLocation }}</td>
+  </tr>
+</tbody>
+
+    </table>
+    <ng-template #emptyHistory>
+      <p>No sales history available.</p>
+    </ng-template>
+  </main>
+</div>

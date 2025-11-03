@@ -1,0 +1,60 @@
+<div class="dashboard-wrapper">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">SpareFlow</div>
+    <nav>
+      <ul>
+        <!-- Dashboard (clickable) -->
+        <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+
+        <!-- Item (unclickable for cashier) -->
+        <li>
+          <a *ngIf="!isCashier; else disabledItemLink" routerLink="/item">Item</a>
+          <ng-template #disabledItemLink>
+            <span class="disabled-link">Item</span>
+          </ng-template>
+        </li>
+
+        <!-- History (unclickable for cashier) -->
+        <li>
+          <a *ngIf="!isCashier; else disabledHistoryLink" routerLink="/history">History</a>
+          <ng-template #disabledHistoryLink>
+            <span class="disabled-link">History</span>
+          </ng-template>
+        </li>
+
+  
+        <!-- Attachment (clickable) -->
+        <li><a routerLink="/attachment" routerLinkActive="active">Attachment</a></li>
+
+        <!-- User Add/Remove (unclickable for cashier) -->
+        <li>
+          <a *ngIf="!isCashier; else disabledUserLink" routerLink="/user">User Add/Remove</a>
+          <ng-template #disabledUserLink>
+            <span class="disabled-link">User Add/Remove</span>
+          </ng-template>
+        </li>
+
+        <!-- Item Add (unclickable for cashier) -->
+        <li>
+          <a *ngIf="!isCashier; else disabledItemAddLink" routerLink="/itemadd">Item Add</a>
+          <ng-template #disabledItemAddLink>
+            <span class="disabled-link">Item Add</span>
+          </ng-template>
+        </li>
+
+        <!-- Back (clickable) -->
+        <li><a (click)="goBack()" style="cursor:pointer;">Back</a></li>
+
+        <!-- Logout (clickable) -->
+        <li><a (click)="logout()" style="cursor:pointer;">Logout</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <h1>Cashier Page</h1>
+    <p>Welcome, {{ username }}!</p>
+  </main>
+</div>

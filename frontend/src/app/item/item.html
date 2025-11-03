@@ -2,15 +2,44 @@
   <!-- Topbar -->
   <header class="topbar">
     <div class="logo">SpareFlow</div>
+
+    <!-- Mobile buttons container -->
+    <div class="mobile-buttons">
+      <button class="menu-toggle" (click)="toggleMenu()">☰ Menu</button>
+      <button class="cart-button" (click)="goToCart()">
+        🛒
+        <span *ngIf="totalSelectedItems() > 0" class="cart-count">
+          {{ totalSelectedItems() }}
+        </span>
+      </button>
+    </div>
+
     <nav>
-      <ul>
+      <ul [class.show]="menuOpen">
         <li><a routerLink="/dashboard">Dashboard</a></li>
         <li><a class="active">Item</a></li>
         <li><a routerLink="/history">History</a></li>
         <li><a routerLink="/attachment">Attachment</a></li>
-        <li><a routerLink="/user">User Add/Remove</a></li>
-        <li><a routerLink="/item-add">Item Add</a></li>
-        <li><a routerLink="/admin">Back</a></li>
+
+
+        <!-- Item Add -->
+        <li>
+          <a *ngIf="!isSalesUser; else disabledItemLink" routerLink="/itemadd">Item Add</a>
+          <ng-template #disabledItemLink>
+            <span class="disabled-link">Item Add</span>
+          </ng-template>
+        </li>
+        <!-- User Add/Remove -->
+        <li>
+          <a *ngIf="!isSalesUser; else disabledUserLink" routerLink="/user">User Add/Remove</a>
+          <ng-template #disabledUserLink>
+            <span class="disabled-link">User Add/Remove</span>
+          </ng-template>
+        </li>
+
+        
+
+        <li><a (click)="goBack()" style="cursor:pointer;">Back</a></li>
       </ul>
     </nav>
   </header>
@@ -20,13 +49,12 @@
     <!-- Top bar: user left, cart right -->
     <div class="top-bar">
       <span class="username">Logged in as: {{ username }}</span>
-     <button class="cart-button" (click)="goToCart()">
-  🛒
-  <span *ngIf="totalSelectedItems() > 0" class="cart-count">
-    {{ totalSelectedItems() }}
-  </span>
-</button>
-
+      <button class="cart-button" (click)="goToCart()">
+        🛒
+        <span *ngIf="totalSelectedItems() > 0" class="cart-count">
+          {{ totalSelectedItems() }}
+        </span>
+      </button>
     </div>
 
     <!-- Search bar -->
@@ -34,38 +62,127 @@
       <input type="text" placeholder="Search items..." [(ngModel)]="searchTerm" />
     </div>
 
-    <!-- Item table -->
-    <table>
-      <thead>
-        <tr>
-          <th>Item Name</th>
-          <th>Part Number</th>
-          <th>Quantity</th>
-          <th>Store Location</th>
-          <th>Shelf Location</th>
-          <th>Price Before VAT</th>
-          <th>Price After VAT</th>
-          <th>Substitute Part Number</th>
-          <th>Quantity Selected</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of filteredItems(); let i = index">
-          <td>{{ item.name }}</td>
-          <td>{{ item.partNumber }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.storeLocation }}</td>
-          <td>{{ item.shelfLocation }}</td>
-          <td>{{ item.priceBeforeVAT | currency }}</td>
-          <td>{{ item.priceAfterVAT | currency }}</td>
-          <td>{{ item.substitutePartNumber }}</td>
-          <td>
-            <button (click)="decrease(i)">-</button>
-            {{ item.selectedQuantity }}
-            <button (click)="increase(i)">+</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Table wrapper for horizontal scroll -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Part Number</th>
+            <th>Quantity</th>
+            <th>Store Location</th>
+            <th>Shelf Location</th>
+            <th>Price Before VAT</th>
+            <th>Price After VAT</th>
+            <th>Substitute Part Number</th>
+            <th>Quantity Selected</th>
+            <th>Update</th>
+            <th *ngIf="!isSalesUser">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredItems(); let i = index">
+            <td *ngFor="let col of tableColumns; let colIndex = index" [attr.data-label]="col.label">
+              <ng-container [ngSwitch]="col.prop">
+
+                <ng-container *ngSwitchCase="'name'">
+                  <ng-container *ngIf="editingIndex !== i || isSalesUser; else editName">
+                    {{ item.name }}
+                  </ng-container>
+                  <ng-template #editName>
+                    <input [(ngModel)]="item.name" />
+                  </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'partNumber'">
+                  <ng-container *ngIf="editingIndex !== i || isSalesUser; else editPart">
+                    {{ item.partNumber }}
+                  </ng-container>
+                  <ng-template #editPart>
+                    <input [(ngModel)]="item.partNumber" />
+                  </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'quantity'">
+                  <ng-container *ngIf="editingIndex !== i || isSalesUser; else editQty">
+                    {{ item.quantity }}
+                  </ng-container>
+                  <ng-template #editQty>
+                    <input [(ngModel)]="item.quantity" />
+                  </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'storeLocation'">
+                  <ng-container *ngIf="editingIndex !== i || isSalesUser; else editStore">
+                    {{ item.storeLocation }}
+                  </ng-container>
+                  <ng-template #editStore>
+                    <input [(ngModel)]="item.storeLocation" />
+                  </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'shelfLocation'">
+                  <ng-container *ngIf="editingIndex !== i || isSalesUser; else editShelf">
+                    {{ item.shelfLocation }}
+                  </ng-container>
+                  <ng-template #editShelf>
+                    <input [(ngModel)]="item.shelfLocation" />
+                  </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'priceBeforeVAT'">
+                  <ng-container *ngIf="editingIndex !== i || isSalesUser; else editBeforeVAT">
+                    {{ item.priceBeforeVAT | currency }}
+                  </ng-container>
+                  <ng-template #editBeforeVAT>
+                    <input type="number" [(ngModel)]="item.priceBeforeVAT" />
+                  </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'priceAfterVAT'">
+                  {{ item.priceAfterVAT | currency }}
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'substitutePartNumber'">
+                  <ng-container *ngIf="editingIndex !== i; else editSubPart">
+                    {{ item.substitutePartNumber }}
+                  </ng-container>
+                  <ng-template #editSubPart>
+                    <input [(ngModel)]="item.substitutePartNumber" />
+                  </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'selectedQuantity'">
+                  <button (click)="decrease(item)">-</button>
+                  {{ item.selectedQuantity }}
+                  <button (click)="increase(item)">+</button>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'update'">
+                  <button *ngIf="editingIndex !== i" (click)="enableEdit(i)">✏️</button>
+                  <button *ngIf="editingIndex === i" (click)="disableEdit(i)">💾</button>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'delete'">
+                  <button class="delete-btn" *ngIf="!isSalesUser" (click)="deleteItem(i)">🗑️</button>
+                </ng-container>
+
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="confirm-modal" *ngIf="showConfirmModal">
+      <div class="confirm-modal-content">
+        <p>Are you sure you want to delete this item?</p>
+        <div class="modal-buttons">
+          <button (click)="confirmDelete()">Yes</button>
+          <button (click)="cancelDelete()">Cancel</button>
+        </div>
+      </div>
+    </div>
   </main>
 </div>

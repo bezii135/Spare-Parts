@@ -1,0 +1,151 @@
+<div class="dashboard-wrapper">
+
+  <!-- Notification icon for large screens -->
+  <div class="notification-icon" (click)="markAllRead()">
+    🔔
+    <span *ngIf="newSalesCount > 0" class="notification-badge">{{ newSalesCount }}</span>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+  <div class="logo">SpareFlow</div>
+  <nav>
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      </li>
+      <li>
+        <a routerLink="/item"
+           [ngClass]="{'disabled-link': isCashier && !isAdmin}"
+           [attr.tabindex]="(isCashier && !isAdmin) ? -1 : 0"
+           >Item</a>
+      </li>
+      <li>
+        <a routerLink="/history"
+           [ngClass]="{'disabled-link': isCashier}"
+           [attr.tabindex]="isCashier ? -1 : 0"
+           >History</a>
+      </li>
+      <li>
+        <a class="active">Attachment</a>
+      </li>
+      <li>
+        <a routerLink="/itemadd"
+           [ngClass]="{'disabled-link': isSales || isCashier}"
+           [attr.tabindex]="(isSales || isCashier) ? -1 : 0"
+           >Item Add</a>
+      </li>
+      <li>
+        <a routerLink="/user"
+           [ngClass]="{'disabled-link': isSales || isCashier}"
+           [attr.tabindex]="(isSales || isCashier) ? -1 : 0"
+           >User Add/Remove</a>
+      </li>
+      
+      <li><a (click)="goBack()" style="cursor:pointer;">Back</a></li>
+      <li><a (click)="logout()" style="cursor:pointer;">Logout</a></li>
+    </ul>
+  </nav>
+</aside>
+
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Top bar for small screens -->
+    <div class="top-bar">
+      <div class="logo">SpareFlow</div>
+     
+
+
+      <div class="right-section">
+        <!-- Notification icon for small screens -->
+        <div class="notification-icon" (click)="markAllRead()">
+    🔔
+    <span *ngIf="newSalesCount > 0" class="notification-badge">{{ newSalesCount }}</span>
+  </div>
+
+
+        <!-- Menu button -->
+        <div class="menu-button" (click)="toggleMenu()">Menu ☰</div>
+
+        <!-- Dropdown menu for small screens -->
+        <div class="dropdown-menu" [style.display]="menuOpen ? 'block' : 'none'">
+          <ul>
+            <li><a routerLink="/dashboard">Dashboard</a></li>
+
+            <li>
+              <ng-container *ngIf="!isCashier; else disabledItemDrop">
+                <a routerLink="/item">Item</a>
+              </ng-container>
+              <ng-template #disabledItemDrop>
+                <span class="disabled-link">Item</span>
+              </ng-template>
+            </li>
+
+            <li>
+              <ng-container *ngIf="!isCashier; else disabledHistoryDrop">
+                <a routerLink="/history">History</a>
+              </ng-container>
+              <ng-template #disabledHistoryDrop>
+                <span class="disabled-link">History</span>
+              </ng-template>
+            </li>
+
+            
+           <li><a routerLink="/attachment" class="active">Attachment</a></li>
+           <li>
+              <ng-container *ngIf="!isCashier; else disabledItemAddDrop">
+                <a routerLink="/itemadd">Item Add</a>
+              </ng-container>
+              <ng-template #disabledItemAddDrop>
+                <span class="disabled-link">Item Add</span>
+              </ng-template>
+            </li>
+
+            <li>
+              <ng-container *ngIf="!isCashier; else disabledUserDrop">
+                <a routerLink="/user">User Add/Remove</a>
+              </ng-container>
+              <ng-template #disabledUserDrop>
+                <span class="disabled-link">User Add/Remove</span>
+              </ng-template>
+            </li>
+
+            
+
+            <li><a (click)="goBack()" style="cursor:pointer;">Back</a></li>
+            <li><a (click)="logout()" style="cursor:pointer;">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+ <p class="username">logged in as: {{ username }}!</p>
+
+    <h1>New Sales Notifications</h1>
+
+    <div class="table-container" *ngIf="notifications.length > 0; else noNotifications">
+      <table>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Quantity Sold</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let note of notifications">
+            <td>{{ note.itemName }}</td>
+            <td>{{ note.quantity }}</td>
+            <td>{{ note.timestamp }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noNotifications>
+      <p class="empty-message">No new sales yet.</p>
+    </ng-template>
+
+  </main>
+</div>

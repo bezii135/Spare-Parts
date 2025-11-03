@@ -1,59 +1,108 @@
 <div class="cart-wrapper">
-  <main class="main-content">
-    <h2>Cart</h2>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="logo">SpareFlow</div>
+  </header>
 
-    <!-- Customer info -->
-    <div class="customer-info">
-      <input type="text" placeholder="Customer Name" [(ngModel)]="customerName" required />
-      <input type="text" placeholder="TIN Number" [(ngModel)]="tinNumber" />
+  <main class="main-content">
+    <!-- Customer Info Card -->
+    <div class="customer-card">
+        <p class="username">Logged in as: {{ username }}!</p>
+      <h2> Customer Information</h2>
+     
+      <form class="customer-form">
+        <label>
+          Customer Name <span class="required"></span>
+          <input
+            type="text"
+            [(ngModel)]="customerName"
+            name="customerName"
+            required
+            placeholder="Enter customer name"
+          />
+        </label>
+        <label>
+          TIN Number
+          <input
+            type="text"
+            [(ngModel)]="tinNumber"
+            name="tinNumber"
+            placeholder="Enter TIN number"
+          />
+        </label>
+      </form>
     </div>
 
-    <!-- Cart table -->
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Item Name</th>
-          <th>Part Number</th>
-          <th>Quantity</th>
-          <th>Unit Price</th>
-          <th>Total Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of items; index as i">
-          <td>{{ i + 1 }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.partNumber }}</td>
-          <td>
-            <button (click)="decrease(item)">-</button>
-            {{ item.quantity }}
-            <button (click)="increase(item)">+</button>
-          </td>
-          <td>{{ item.unitPrice | currency }}</td>
-          <td>{{ item.totalPrice | currency }}</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="5">Total Price</td>
-          <td>{{ getTotalPrice() | currency }}</td>
-        </tr>
-        <tr>
-          <td colspan="5">VAT (15%)</td>
-          <td>{{ getVAT() | currency }}</td>
-        </tr>
-        <tr>
-          <td colspan="5"><strong>Grand Total</strong></td>
-          <td><strong>{{ getGrandTotal() | currency }}</strong></td>
-        </tr>
-      </tfoot>
-    </table>
+    <!-- VAT Toggle -->
+    <div class="vat-toggle">
+      <label>
+        Sale Type:
+        <select [(ngModel)]="includeVAT">
+          <option [ngValue]="true">With VAT</option>
+          <option [ngValue]="false">Without VAT</option>
+        </select>
+      </label>
+    </div>
+
+    
+    <!-- Success Message Box -->
+<div *ngIf="showSuccessMessage" class="success-message">
+  ✅ Sale completed successfully! <br />
+  Stock updated and receipt saved.
+</div>
+
+    <!-- Cart Table -->
+    <div class="table-container">
+      <h2>Cart Items</h2>
+
+      <table *ngIf="items.length > 0; else emptyCart">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Item Name</th>
+            <th>Part Number</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items; let i = index">
+            <td data-label="No.">{{ i + 1 }}</td>
+            <td data-label="Item Name">{{ item.name }}</td>
+            <td data-label="Part Number">{{ item.partNumber }}</td>
+            <td data-label="Quantity">{{ item.quantity }}</td>
+            <td data-label="Unit Price">{{ item.unitPrice | currency }}</td>
+            <td data-label="Total Price">{{ item.totalPrice | currency }}</td>
+          </tr>
+
+          <tr class="summary-row">
+            <td colspan="5">Total:</td>
+            <td>{{ getTotalPrice() | currency }}</td>
+          </tr>
+          <tr class="summary-row" *ngIf="includeVAT">
+            <td colspan="5">VAT (15%):</td>
+            <td>{{ getVAT() | currency }}</td>
+          </tr>
+          <tr class="summary-row grand-total" *ngIf="includeVAT">
+            <td colspan="5">Grand Total:</td>
+            <td>{{ getGrandTotal() | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Empty Cart Card -->
+      <ng-template #emptyCart>
+        <div class="no-items-box">
+          🛒 No items in your cart
+        </div>
+      </ng-template>
+    </div>
 
     <!-- Buttons -->
-    <div class="buttons">
-      <button (click)="sell()">Sell</button>
-      <button (click)="goBack()">Back</button>
+    <div class="cart-buttons">
+      <button class="sell-button" (click)="sell()">Sell</button>
+      <button class="back-button" (click)="goBack()">⬅ Back</button>
     </div>
   </main>
 </div>

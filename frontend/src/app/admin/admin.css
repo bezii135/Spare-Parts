@@ -1,0 +1,157 @@
+/* Full screen wrapper */
+.dashboard-wrapper {
+  display: flex;          /* flex layout: sidebar + main content */
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #001f3f;
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;        /* prevent sidebar from shrinking */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+/* Logo at top */
+.sidebar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Sidebar links/buttons */
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 20px;
+}
+
+.sidebar nav ul li a,
+.sidebar nav ul li button {
+  color: white;
+  background: none;
+  border: none;
+  font-size: 16px;
+  display: block;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li button:hover {
+  background-color: #004e92;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;                  /* fill remaining horizontal space */
+  padding: 40px;
+  background-color: #f5f5f5;
+  color: #000;
+}
+
+/* Dark mode */
+.dashboard-wrapper.dark-mode .main-content {
+  background-color: #021232de;
+  color: #f0f0f0;
+}
+
+/* Typography */
+.main-content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.main-content p {
+  font-size: 18px;
+}
+
+/* Responsive layout */
+/* Topbar wrapper for mobile/tablet */
+.sidebar {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Topbar header: logo + menu button */
+.topbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Menu toggle button */
+.menu-toggle {
+  display: block;
+  background-color: #004e92;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+
+.menu-toggle:hover {
+    background-color: #003b70;
+    transform: scale(1.05);
+  }
+
+
+
+
+
+/* Hide default sidebar links */
+.sidebar nav ul {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px; /* below topbar */
+  right: 0;
+  width: 200px;
+  background-color: #001f3f;
+  border-radius: 0 0 8px 8px;
+  padding: 10px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* Show menu when toggled */
+.sidebar nav ul.show {
+  display: flex;
+}
+
+/* Menu items styling */
+.sidebar nav ul li {
+  margin: 0;
+  padding: 5px 15px;
+}
+
+.sidebar nav ul li a,
+.sidebar nav ul li button {
+  width: 100%;
+  text-align: left;
+}

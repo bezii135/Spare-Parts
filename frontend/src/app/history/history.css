@@ -1,0 +1,273 @@
+/* ===========================
+   TOPBAR
+=========================== */
+.topbar {
+  width: 100%;
+  background-color: #001f3f;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 10;
+  height: 55px;
+}
+.topbar .left-section {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* space between logo and nav */
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Navigation Links */
+.topbar nav ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.topbar nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.topbar nav ul li a.active,
+.topbar nav ul li a:hover {
+  background-color: #004e92;
+}
+
+/* Hover effect for each menu item */
+.topbar a:hover {
+  background-color: #00509e;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Disabled links */
+.disabled-link {
+  color: rgb(182, 176, 176);
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+
+/* ===========================
+   RESPONSIVE NAV MENU
+=========================== */
+@media (max-width: 900px) {
+  .topbar {
+    padding: 12px 12px; /* reduced side padding to give more space */
+  }
+
+   
+
+
+
+.menu-toggle:hover {
+    background-color: #003b70;
+    transform: scale(1.05);
+  }
+
+
+
+.menu-toggle .menu-icon {
+  font-size: 20px;
+}
+
+.menu-toggle .menu-text {
+  font-weight: bold;
+}
+
+
+
+  .topbar nav ul {
+    flex-direction: column;
+    position: absolute;
+    top: 55px;
+    right: 10px;
+    width: 200px;
+    background-color: #001f3f;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+  }
+
+  .topbar nav ul.show {
+    max-height: 500px;
+  }
+
+  .topbar nav ul li {
+    width: 100%;
+  }
+
+  .topbar nav ul li a {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+  }
+
+  .topbar nav ul li a:hover {
+    background-color: #004e92;
+  }
+}
+
+/* ===========================
+   DESKTOP RESET
+=========================== */
+@media (min-width: 901px) {
+  .topbar nav ul {
+    position: static;
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+    max-height: none;
+    display: flex !important;
+    align-items: center;
+  }
+
+   .menu-toggle {
+display: none;
+ }
+}
+
+/* ===========================
+   MAIN CONTENT
+=========================== */
+.main-content {
+  padding: 40px;
+  background: #f5f5f5;
+  flex: 1;
+}
+
+.main-content h1 {
+  margin-bottom: 20px;
+}
+
+/* ===========================
+   TABLE STYLING
+=========================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+table th,
+table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  background-color: #001f3f;
+  color: white;
+}
+
+/* ===========================
+   MOBILE TABLE (Improved layout)
+=========================== */
+@media (max-width: 900px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border: none;
+    font-size: 15px;
+    text-align: left;
+    gap: 10px;
+  }
+
+   .menu-toggle {
+    display: flex;
+    position: absolute;
+    right: 20px; /* ensures it's fully visible */
+    top: 15%;
+    
+  }
+
+  /* Hamburger menu button - hidden on desktop */
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #004e92;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  right: 25px; /* increased from 20px to ensure visibility */
+  top: 21%;
+  transition: background 0.3s, transform 0.3s;
+}
+
+  /* Label on the LEFT side */
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #004e92;
+    width: 140px;            /* consistent label width */
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  /* Data text on the RIGHT side but aligned neatly */
+  tbody td span,
+  tbody td {
+    color: #222;
+    word-break: break-word;
+    text-align: right; /* move values to the right */
+  flex-grow: 1;
+  }
+}
+
+.username {
+  font-weight: bold;
+  font-size: 15px;
+}
+

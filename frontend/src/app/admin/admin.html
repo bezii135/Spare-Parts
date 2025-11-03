@@ -2,15 +2,20 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="logo">SpareFlow</div>
+    <button class="menu-toggle" (click)="menuOpen = !menuOpen">
+  <span class="menu-icon">☰</span>
+  <span class="menu-text">Menu</span>
+</button>
+
     <nav>
-      <ul>
+      <ul [class.show]="menuOpen">
         <li><a routerLink="/dashboard">Dashboard</a></li>
        <li><a routerLink="/item" routerLinkActive="active">Item</a></li>
 
-        <li><a>History</a></li>
-        <li><a>Attachment</a></li>
-        <li><a>User Add/Remove</a></li>
-        <li><a>Item Add</a></li>
+       <li><a routerLink="/history" routerLinkActive="active">History</a></li>
+        <li><a routerLink="/attachment" routerLinkActive="active">Attachment</a></li>
+        <li><a routerLink="/user" class="active">User Add/Remove</a></li>
+       <li><a routerLink="/itemadd" routerLinkActive="active">Item Add</a></li>
         <li><a (click)="goBack()" style="cursor:pointer;">Back</a></li>
         <li><a (click)="logout()" style="cursor:pointer;">Logout</a></li>
       </ul>

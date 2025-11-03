@@ -2,13 +2,40 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="logo">SpareFlow</div>
+    <!-- With this line -->
+<button class="menu-toggle" (click)="menuOpen = !menuOpen">
+  &#9776; <span class="menu-text">Menu</span>
+</button>
     <nav>
-      <ul>
+    <ul [class.show]="menuOpen">
         <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-        <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
+        <li>
+  <a [routerLink]="'/admin'" 
+     routerLinkActive="active"
+     [class.disabled-link]="userRole !== 'admin'"
+     [style.pointerEvents]="userRole !== 'admin' ? 'none' : 'auto'">
+    Admin
+  </a>
+</li>
 
-        <li><a routerLink="/sales" routerLinkActive="active">Sales</a></li>
-        <li><a routerLink="/cashier" routerLinkActive="active">Cashier</a></li>
+<li>
+  <a [routerLink]="'/sales'" 
+     routerLinkActive="active"
+     [class.disabled-link]="userRole !== 'sales'"
+     [style.pointerEvents]="userRole !== 'sales' ? 'none' : 'auto'">
+    Sales
+  </a>
+</li>
+
+<li>
+  <a [routerLink]="'/cashier'" 
+     routerLinkActive="active"
+     [class.disabled-link]="userRole !== 'cashier'"
+     [style.pointerEvents]="userRole !== 'cashier' ? 'none' : 'auto'">
+    Cashier
+  </a>
+</li>
+
         <li>
           <button type="button" (click)="toggleDarkMode()">Darkmode</button>
         </li>

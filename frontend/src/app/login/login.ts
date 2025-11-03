@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
-import { filter } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   username: string = '';
   password: string = '';
   role: string = '';
@@ -24,20 +23,7 @@ export class LoginComponent implements OnInit {
     { username: 'cashier', password: 'cashier', role: 'cashier' },
   ];
 
-  constructor(private router: Router) {
-    // Reset form when navigating to login
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        if (event.urlAfterRedirects === '/') {
-          this.resetForm();
-        }
-      });
-  }
-
-  ngOnInit() {
-    this.resetForm();
-  }
+  constructor(private router: Router) {}
 
   resetForm() {
     this.username = '';
@@ -45,17 +31,21 @@ export class LoginComponent implements OnInit {
     this.role = '';
     this.errorMessage = '';
     localStorage.removeItem('username');
+    localStorage.removeItem('role');
   }
 
   login() {
-    // Check for user match with role
-    const user = this.allowedUsers.find(
-      u => u.username === this.username && u.password === this.password && u.role === this.role
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(
+      (u: any) =>
+        u.username === this.username &&
+        u.password === this.password &&
+        u.role === this.role
     );
 
     if (user) {
       localStorage.setItem('username', this.username);
-      localStorage.setItem('role', this.role); // optional if you need role later
+      localStorage.setItem('role', this.role);
       this.router.navigate(['/dashboard']);
     } else {
       this.errorMessage = 'Invalid username, password, or role';
@@ -64,4 +54,27 @@ export class LoginComponent implements OnInit {
       this.role = '';
     }
   }
+
+ focusNext(event: Event) {
+  const keyboardEvent = event as KeyboardEvent; // cast here
+  keyboardEvent.preventDefault(); // stop form submission
+
+  const target = keyboardEvent.target as HTMLElement;
+  const form = target.closest('form');
+  if (!form) return;
+
+  const formElements = Array.from(
+    form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select, button')
+  );
+
+  const index = formElements.indexOf(target as any);
+  if (index > -1 && index + 1 < formElements.length) {
+    formElements[index + 1].focus();
+  }
 }
+
+
+
+
+}
+

@@ -1,51 +1,68 @@
 <div class="login-wrapper">
-  <div class="login-container">
-    <h1>Login</h1>
+  <div class="login-card">
+    <h1>SpareFlow Login</h1>
 
     <form (ngSubmit)="login()" autocomplete="off">
-      <!-- Role selector -->
+      <!-- Role Selector -->
       <div class="form-group">
         <label for="role">Role</label>
-        <select id="role" [(ngModel)]="role" name="role" required>
-          <option value="" disabled selected>Select role</option>
-          <option value="admin">Admin</option>
-          <option value="sales">Sales</option>
-          <option value="cashier">Cashier</option>
-        </select>
+    <select id="role" [(ngModel)]="role" name="role" required
+    (keydown.enter)="focusNext($event)">
+  <option value="" disabled>Select role</option>
+  <option value="admin">Admin</option>
+  <option value="sales">Sales</option>
+  <option value="cashier">Cashier</option>
+</select>
+
+
+
+
       </div>
 
+
+      
       <!-- Username -->
       <div class="form-group">
         <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          placeholder="Enter your username"
-          required
-          [(ngModel)]="username"
-          name="username"
-          autocomplete="new-username"
-        />
+<input
+  type="text"
+  id="username"
+  placeholder="Enter your username"
+  [(ngModel)]="username"
+  name="username"
+  required
+  autocomplete="new-username"
+  (keydown.enter)="focusNext($event)"
+/>
+
+
       </div>
 
       <!-- Password -->
       <div class="form-group">
         <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter your password"
-          required
-          [(ngModel)]="password"
-          name="password"
-          autocomplete="new-password"
-        />
+  <input
+  type="password"
+  id="password"
+  placeholder="Enter your password"
+  [(ngModel)]="password"
+  name="password"
+  required
+  autocomplete="new-password"
+
+/>
+
+
+
       </div>
 
-      <!-- Error message -->
+      <!-- Error Message -->
       <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
-      <button type="submit">Login</button>
+      <!-- Login Button -->
+      <button type="submit" class="login-btn">Login</button>
+<button type="button" class="clear-btn" (click)="resetForm()">Clear</button>
+
     </form>
   </div>
 </div>

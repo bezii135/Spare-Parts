@@ -59,7 +59,7 @@
 
 /* Main content */
 .main-content {
-  flex: 1;                  /* fill remaining horizontal space */
+  flex: 1;                  
   padding: 40px;
   background-color: #f5f5f5;
   color: #000;
@@ -81,7 +81,13 @@
   font-size: 18px;
 }
 
-/* Responsive layout */
+.disabled-link {
+  color: rgb(182, 176, 176);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Mobile: dropdown menu */
 @media (max-width: 768px) {
   .dashboard-wrapper {
     flex-direction: column;
@@ -90,21 +96,122 @@
   .sidebar {
     width: 100%;
     flex-direction: row;
-    justify-content: space-around;
-    padding: 15px;
+    justify-content: space-between; /* logo left, menu button right */
+    align-items: center;
+    padding: 25px 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: relative;
   }
 
+  /* Hide default links */
   .sidebar nav ul {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+    display: none;
+    flex-direction: column;
+    background-color: #001f3f;
+    position: absolute;
+    top: 60px; /* below top bar */
+    right: 0;
+    width: 200px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 10px 0;
+    z-index: 1000;
   }
 
-  .sidebar nav ul li {
+  .sidebar nav ul.show {
+    display: flex;
+  }
+
+  /* Menu toggle button */
+  .sidebar .menu-toggle {
+    display: block;
+    background-color: #004e92;
+    color: white;
+    border: none;
+    padding: 15px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute;
+    top: 10px;
+    right: 35px;
+    z-index: 1001;
+
+  }
+
+  .sidebar .logo {
     margin-bottom: 0;
   }
 
-  .main-content {
-    padding: 20px;
+  .sidebar nav ul li {
+    margin: 0;
+    padding: 5px 15px;
   }
+
+  .sidebar nav ul li a,
+  .sidebar nav ul li button {
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Show menu button only on mobile */
+  .menu-toggle {
+    display: block;
+    background: none;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+
+.menu-toggle:hover {
+    background-color: #003b70;
+    transform: scale(1.05);
+  }
+
+
+
+  /* Dropdown menu */
+  .sidebar nav ul {
+    display: none;
+    flex-direction: column;
+    background-color: #001f3f;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 10px 0;
+    z-index: 1000;
+  }
+
+  .sidebar nav ul.show {
+    display: flex;
+  }
+
+  .sidebar nav ul li {
+    margin: 0;
+    padding: 5px 15px;
+  }
+
+  .sidebar nav ul li a,
+  .sidebar nav ul li button {
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Show "Menu" text next to icon */
+  .menu-text {
+    display: inline;
+    margin-left: 8px;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+}
+
+/* Hide menu button on desktop/tablet */
+.menu-toggle {
+  display: none;
 }

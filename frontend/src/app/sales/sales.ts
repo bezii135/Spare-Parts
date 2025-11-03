@@ -2,19 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
+
 @Component({
-  selector: 'app-admin',
+  selector: 'app-sales',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './admin.html',
- styleUrls: ['../dashboard/dashboard.css']   // use the same dashboard CSS
+  templateUrl: './sales.html',
+  styleUrls: ['./sales.css']
 })
-export class AdminComponent implements OnInit {
+export class SalesComponent implements OnInit {
   username: string = '';
-  darkMode: boolean = false; // dark mode toggle
-  menuOpen: boolean = false;
+  darkMode: boolean = false;
+  menuOpen: boolean = false; // toggle menu for mobile
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private location: Location) {}
 
   ngOnInit() {
     this.username = localStorage.getItem('username') || '';
@@ -26,10 +28,14 @@ export class AdminComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/dashboard']); // goes back to dashboard
+    this.location.back();
   }
 
   toggleDarkMode() {
     this.darkMode = !this.darkMode;
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 }
