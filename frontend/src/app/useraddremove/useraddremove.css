@@ -6,6 +6,7 @@
 
 /* Sidebar */
 .sidebar {
+  position: fixed; /* fix sidebar */
   width: 220px;
   background-color: #001f3f;
   color: white;
@@ -13,6 +14,11 @@
   display: flex;
   flex-direction: column;
   box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+  top: 0;          /* start from top */
+  left: 0;
+  bottom: 0;       /* extend to bottom */
+  overflow-y: auto; /* scroll inside sidebar if content overflows */
+  z-index: 10;
 }
 
 .sidebar .logo {
@@ -52,6 +58,7 @@
   flex: 1;
   padding: 40px;
   background-color: #f5f5f5;
+  margin-left: 220px; /* offset content to avoid fixed sidebar */
 }
 
 /* Typography */
@@ -162,13 +169,91 @@ table th {
     flex-direction: column;
   }
 
+  /* Hide sidebar on small screens */
   .sidebar {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 15px;
+    display: none;
   }
 
+  .main-content {
+    padding: 80px 20px 20px; /* offset for fixed topbar */
+    margin-left: 0;
+  }
+
+  /* Topbar for small screens */
+  .topbar-menu {
+    display: flex;
+    position: fixed; /* fixed top bar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    padding: 10px 20px;
+    background-color: #001f3f;
+    z-index: 20;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .topbar-logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin-left: 0;
+  }
+
+  .menu-btn {
+    font-size: 18px;
+    background-color: #004e92;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 8px 14px;
+    position: absolute;
+    right: 53px;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .menu-btn:hover {
+    background-color: #003b70;
+    transform: scale(1.05);
+  }
+
+  .dropdown-menu {
+    display: none;
+    list-style: none;
+    margin: 10px 0 0 0;
+    padding: 0;
+    background-color: #001f3f;
+    width: 220px;
+    position: absolute;
+    right: 0;
+    top: 60px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+    border-radius: 8px;
+  }
+
+  .dropdown-menu li a {
+    display: block;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    text-align: left;
+  }
+
+  .dropdown-menu li a:hover {
+    background-color: #004e92;
+  }
+
+  .dropdown-menu.show {
+    display: block;
+  }
+
+  /* Sidebar menu responsive layout (hidden) */
   .sidebar nav ul {
     display: flex;
     flex-direction: row;
@@ -177,10 +262,6 @@ table th {
 
   .sidebar nav ul li {
     margin-bottom: 0;
-  }
-
-  .main-content {
-    padding: 20px;
   }
 
   .user-form {
@@ -193,220 +274,8 @@ table th {
   }
 }
 
-/* Menu toggle button */
-.menu-toggle {
-  display: none;
-  background-color: #004e92;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-left: auto;
-  transition: background 0.3s;
-}
-
-.menu-toggle:hover {
-  background-color: #003b70;
-}
-
-
-
-/* Layout of topbar elements */
-.topbar-menu {
-  display: none; /* hidden on large screens */
-  background-color: #001f3f;
-  padding: 10px 20px;
-  color: white;
-  position: relative;
-  text-align: right;
-  height: 48px;
-}
-
-
-
-.topbar-menu .menu-btn {
-   display: block;
-    background-color: #004e92;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    margin-left: auto;
-    margin-top: -23px;
-    transition: background 0.3s, transform 0.3s;
-}
-.topbar-menu .menu-btn:hover {
-    background-color: #003b70;
-    transform: scale(1.05);
-  }
-
-
-/* Topbar logo */
-.topbar-logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-  margin-right: 600px;
-}
-
-
-
-/* Topbar menu button for small screens */
-.topbar-menu {
-  position: relative;     /* make dropdown position relative to this */
-  z-index: 2;   
-  display: flexS; /* hidden on large screens */
-  background-color: #001f3f;
-  padding: 25px 20px;
-  color: white;
-  text-align: right; /* align button to the right */
-}
-
-/* Logo on the far left */
-.topbar-logo {
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  margin-left: 0; /* ensure no spacing from left edge */
-}
-/* Menu button */
-.menu-btn {
-  font-size: 18px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  background-color: #004e92;
-}
-
-
-
-
-
-.menu-btn:hover {
-  color:  #003b70;
-}
-
-/* Dropdown menu */
-.dropdown-menu {
-  display: none;
-  list-style: none;
-  margin: 10px 0 0 0;
-  padding: 0;
-  background-color: #001f3f;
-  width: 220px; /* fixed width same as sidebar */
-  position: absolute;
-  right: 0px; /* align to right */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  z-index: 1000;
-  border-radius: 8px;
-  top: 60px;
- 
-}
-
-
-
-
- 
-
-
-
-
-
-
-.dropdown-menu li a {
- display: block;
-  padding: 10px 15px;
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  border: none; /* removed border */
-  border-radius: 8px;
-  transition: all 0.3s;
-  text-align: left;
-
-}
-
-.dropdown-menu li a:hover {
-  background-color: #004e92;
-}
-
-.dropdown-menu.show {
-  display: block;
-}
-
-
-/* Responsive */
-@media (max-width: 768px) {
-  .dashboard-wrapper {
-    flex-direction: column;
-  }
-  .topbar-menu {
-    display: flex;
-    justify-content: space-between; /* logo left, button right */
-    align-items: center;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .sidebar {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 15px;
-  }
-
-  .sidebar nav ul {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .sidebar nav ul li {
-    margin-bottom: 0;
-  }
-
-  .main-content {
-    padding: 20px;
-  }
-
-  form {
-    width: 100%;
-    padding: 20px;
-  }
-
-  table th, table td {
-    font-size: 12px;
-    padding: 8px;
-  }
-
-
-
-
-}
-
-/* Show topbar-menu only on small screens */
-@media (max-width: 768px) {
-  .topbar-menu {
-    display: block;
-  }
-
-  /* Hide the sidebar on small screens */
-  .sidebar {
-    display: none;
-  }
-  
-}
 /* Highlight active link in the dropdown menu */
 .dropdown-menu li a.active {
-  background-color: #004e92; /* same color as sidebar active */
+  background-color: #004e92;
   border-radius: 8px;
 }
-
-

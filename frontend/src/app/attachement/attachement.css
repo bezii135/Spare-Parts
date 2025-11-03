@@ -71,7 +71,6 @@
   height: 70px;
   z-index: 100;
   width: 100%;
-  
 }
 
 .top-bar .logo {
@@ -106,13 +105,7 @@
   z-index: 1000;
   min-width: 200px;
   border-radius: 8px;
- 
-
 }
-
-
-
-
 
 .dropdown-menu ul {
   list-style: none;
@@ -137,6 +130,7 @@
 .dropdown-menu ul li a:hover {
   background-color: #004e92;
 }
+
 .sidebar nav ul li span.disabled-link,
 .dropdown-menu ul li span.disabled-link {
   font-weight: 400; /* lighter for disabled links */
@@ -144,7 +138,6 @@
   cursor: not-allowed;
   opacity: 0.6;
 }
-
 
 /* Table styling */
 .table-container {
@@ -178,16 +171,16 @@ table th {
   color: #888;
 }
 
-/* Large screen notification icon */
+/* Notification icon */
 .notification-icon {
   display: flex;
-  position: fixed;
+  position: fixed; /* always fixed */
   top: 15px;
   right: 20px;
   font-size: 32px;
   color: white;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1002;
 }
 
 .notification-badge {
@@ -202,26 +195,25 @@ table th {
   border-radius: 50%;
 }
 
+.menu-button {
+  display: block;
+  background-color: #004e92;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  position: absolute;
+  right: 50px;
+  margin-left: auto;
+  transition: background 0.3s, transform 0.3s;
+}
 
-
-  .menu-button {
-    display: block;
-    background-color: #004e92;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    margin-left: auto;
-    transition: background 0.3s, transform 0.3s;
-  }
-
-  .menu-button:hover {
-    background-color: #003b70;
-    transform: scale(1.05);
-  }
-
+.menu-button:hover {
+  background-color: #003b70;
+  transform: scale(1.05);
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -229,12 +221,19 @@ table th {
     flex-direction: column;
   }
 
+  /* Hide sidebar on small screens */
   .sidebar {
     display: none;
   }
 
+  /* Fixed top bar on small screens */
   .top-bar {
     display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 101;
   }
 
   .menu-button {
@@ -242,7 +241,8 @@ table th {
   }
 
   .main-content {
-    padding: 20px;
+    margin-left: 0;        /* no sidebar */
+    padding-top: 90px;     /* offset for fixed top bar */
   }
 
   table th,
@@ -251,13 +251,10 @@ table th {
     padding: 8px;
   }
 
-  /* Notification icon for small screens inside top-bar */
   .notification-icon {
-    position: relative;
-    top: auto;
-    right: auto;
-    order: 1;
-    margin-right: 10px;
+    top: 25px;
+    right: 120px;
+    font-size: 30px;
   }
 
   .top-bar .right-section {
@@ -267,14 +264,30 @@ table th {
   }
 }
 
+/* Fixed sidebar adjustments for large screens */
+@media (min-width: 769px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;      /* full viewport height */
+    overflow-y: auto;   /* scroll inside sidebar if needed */
+    z-index: 100;
+  }
+
+  .main-content {
+    margin-left: 220px; /* offset for fixed sidebar */
+  }
+}
+
 .username {
   color: black;
   font-size: 16px;
   margin-bottom: 15px;
   text-align: left;
   font-weight: bold;
-  font-size: 15px;
 }
+
 .disabled-link {
   color: rgb(182, 176, 176); /* grayish */
   cursor: not-allowed;
@@ -283,6 +296,6 @@ table th {
   font-weight: 400;
 }
 
-.active{
+.active {
   background-color: #003b70;
 }

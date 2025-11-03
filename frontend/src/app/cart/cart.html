@@ -7,36 +7,22 @@
   <main class="main-content">
     <!-- Customer Info Card -->
     <div class="customer-card">
-        <p class="username">Logged in as: {{ username }}!</p>
+      <p class="username">Logged in as: {{ username }}!</p>
       <h2> Customer Information</h2>
-     
       <form class="customer-form">
-        <label>
-          Customer Name <span class="required"></span>
-          <input
-            type="text"
-            [(ngModel)]="customerName"
-            name="customerName"
-            required
-            placeholder="Enter customer name"
-          />
+        <label> Customer Name
+          <span class="required"></span>
+          <input type="text" [(ngModel)]="customerName" name="customerName" required placeholder="Enter customer name" />
         </label>
-        <label>
-          TIN Number
-          <input
-            type="text"
-            [(ngModel)]="tinNumber"
-            name="tinNumber"
-            placeholder="Enter TIN number"
-          />
+        <label> TIN Number
+          <input type="text" [(ngModel)]="tinNumber" name="tinNumber" placeholder="Enter TIN number" />
         </label>
       </form>
     </div>
 
     <!-- VAT Toggle -->
     <div class="vat-toggle">
-      <label>
-        Sale Type:
+      <label> Sale Type:
         <select [(ngModel)]="includeVAT">
           <option [ngValue]="true">With VAT</option>
           <option [ngValue]="false">Without VAT</option>
@@ -44,17 +30,9 @@
       </label>
     </div>
 
-    
-    <!-- Success Message Box -->
-<div *ngIf="showSuccessMessage" class="success-message">
-  ✅ Sale completed successfully! <br />
-  Stock updated and receipt saved.
-</div>
-
     <!-- Cart Table -->
     <div class="table-container">
       <h2>Cart Items</h2>
-
       <table *ngIf="items.length > 0; else emptyCart">
         <thead>
           <tr>
@@ -75,7 +53,6 @@
             <td data-label="Unit Price">{{ item.unitPrice | currency }}</td>
             <td data-label="Total Price">{{ item.totalPrice | currency }}</td>
           </tr>
-
           <tr class="summary-row">
             <td colspan="5">Total:</td>
             <td>{{ getTotalPrice() | currency }}</td>
@@ -93,9 +70,7 @@
 
       <!-- Empty Cart Card -->
       <ng-template #emptyCart>
-        <div class="no-items-box">
-          🛒 No items in your cart
-        </div>
+        <div class="no-items-box"> 🛒 No items in your cart </div>
       </ng-template>
     </div>
 

@@ -7,6 +7,7 @@
 
 /* Sidebar */
 .sidebar {
+  position: fixed;
   width: 220px;
   background-color: #001f3f;
   color: white;
@@ -89,7 +90,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  position: relative;
+  position: fixed;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 

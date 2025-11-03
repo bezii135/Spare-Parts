@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { Location } from '@angular/common'; // add this import
+import { Location } from '@angular/common';
 
 interface SaleNotification {
-  itemName: string;
-  quantity: number;
-  timestamp: string;
+  timestamp: string; // Date
+  username: string; // User who made the sale
+  customerName: string; // Customer name
+  pdfFile: string; // Link to PDF file
 }
-
 
 @Component({
   selector: 'app-attachement',
@@ -17,32 +17,38 @@ interface SaleNotification {
   templateUrl: './attachement.html',
   styleUrls: ['./attachement.css']
 })
-
 export class AttachementComponent implements OnInit {
   username: string = '';
   notifications: SaleNotification[] = [];
   newSalesCount: number = 0;
- isCashier: boolean = true; // so sidebar disables proper links
+  isCashier: boolean = true;
   isAdmin: boolean = false;
   isSales: boolean = false;
- menuOpen: boolean = false; // <-- ADD THIS LINE
-  constructor(private router: Router, private location: Location) {} 
+  menuOpen: boolean = false;
+
+  constructor(private router: Router, private location: Location) {}
+
   ngOnInit() {
-     const role = localStorage.getItem('role');
+    const role = localStorage.getItem('role');
     this.isCashier = role === 'cashier';
     this.isAdmin = role === 'admin';
-    this.isSales = role === 'sales'; 
+    this.isSales = role === 'sales';
     this.username = localStorage.getItem('username') || '';
     this.loadNotifications();
+
+    // Load unread count
+    this.newSalesCount = Number(localStorage.getItem('unreadSalesCount') || '0');
+
     window.addEventListener('newSale', (event: any) => {
-    if (event.detail) {
-      this.notifications = event.detail;
-      this.newSalesCount = this.notifications.length;
-      alert('New sale made!'); // optional, removes if you just want the icon to update
-    }
-  });
+      if (event.detail) {
+        this.notifications = event.detail;
+        this.newSalesCount = this.notifications.length;
+        alert('New sale made!');
+      }
+    });
   }
-toggleMenu() {
+
+  toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
@@ -56,14 +62,15 @@ toggleMenu() {
 
   markAllRead() {
     this.newSalesCount = 0;
+    localStorage.setItem('unreadSalesCount', '0');
   }
 
   logout() {
     localStorage.removeItem('username');
     this.router.navigate(['/']);
   }
-goBack() {
-  this.location.back();
-}
 
+  goBack() {
+    this.location.back();
+  }
 }

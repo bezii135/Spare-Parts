@@ -10,7 +10,9 @@
   justify-content: space-between;
   padding: 20px 40px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  position: relative;
+  position: fixed; /* fixed top bar */
+  top: 0;
+  left: 0;
   z-index: 10;
   height: 55px;
 }
@@ -63,7 +65,6 @@
   pointer-events: none;
 }
 
-
 /* ===========================
    RESPONSIVE NAV MENU
 =========================== */
@@ -72,26 +73,18 @@
     padding: 12px 12px; /* reduced side padding to give more space */
   }
 
-   
-
-
-
-.menu-toggle:hover {
+  .menu-toggle:hover {
     background-color: #003b70;
     transform: scale(1.05);
   }
 
+  .menu-toggle .menu-icon {
+    font-size: 20px;
+  }
 
-
-.menu-toggle .menu-icon {
-  font-size: 20px;
-}
-
-.menu-toggle .menu-text {
-  font-weight: bold;
-}
-
-
+  .menu-toggle .menu-text {
+    font-weight: bold;
+  }
 
   .topbar nav ul {
     flex-direction: column;
@@ -125,6 +118,83 @@
   .topbar nav ul li a:hover {
     background-color: #004e92;
   }
+
+  .menu-toggle {
+    display: flex;
+    position: absolute;
+    right: 40px; /* ensures it's fully visible */
+    top: 15%;
+    align-items: center;
+    gap: 6px;
+    background-color: #004e92;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .menu-toggle .menu-icon {
+    font-size: 20px;
+  }
+
+  .menu-toggle .menu-text {
+    font-weight: bold;
+  }
+
+  /* MOBILE TABLE STYLING */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border: none;
+    font-size: 15px;
+    text-align: left;
+    gap: 10px;
+  }
+
+  /* Label on the LEFT side */
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #004e92;
+    width: 140px;
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  /* Data on the RIGHT side */
+  tbody td span,
+  tbody td {
+    color: #222;
+    word-break: break-word;
+    text-align: right;
+    flex-grow: 1;
+  }
 }
 
 /* ===========================
@@ -141,16 +211,16 @@
     align-items: center;
   }
 
-   .menu-toggle {
-display: none;
- }
+  .menu-toggle {
+    display: none;
+  }
 }
 
 /* ===========================
    MAIN CONTENT
 =========================== */
 .main-content {
-  padding: 40px;
+  padding: 100px 40px 40px; /* add top padding to offset fixed topbar */
   background: #f5f5f5;
   flex: 1;
 }
@@ -184,90 +254,7 @@ table th {
   color: white;
 }
 
-/* ===========================
-   MOBILE TABLE (Improved layout)
-=========================== */
-@media (max-width: 900px) {
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  thead tr {
-    display: none;
-  }
-
-  tbody tr {
-    margin-bottom: 15px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px 16px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-  }
-
-  tbody td {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border: none;
-    font-size: 15px;
-    text-align: left;
-    gap: 10px;
-  }
-
-   .menu-toggle {
-    display: flex;
-    position: absolute;
-    right: 20px; /* ensures it's fully visible */
-    top: 15%;
-    
-  }
-
-  /* Hamburger menu button - hidden on desktop */
-.menu-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: #004e92;
-  border: none;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  position: absolute;
-  right: 25px; /* increased from 20px to ensure visibility */
-  top: 21%;
-  transition: background 0.3s, transform 0.3s;
-}
-
-  /* Label on the LEFT side */
-  tbody td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    color: #004e92;
-    width: 140px;            /* consistent label width */
-    text-align: left;
-    flex-shrink: 0;
-  }
-
-  /* Data text on the RIGHT side but aligned neatly */
-  tbody td span,
-  tbody td {
-    color: #222;
-    word-break: break-word;
-    text-align: right; /* move values to the right */
-  flex-grow: 1;
-  }
-}
-
 .username {
   font-weight: bold;
   font-size: 15px;
 }
-
